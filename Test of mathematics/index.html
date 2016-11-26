@@ -4,12 +4,16 @@
     <title>Test</title>
 
     <script src="./Libraries/angular.js"></script>
-
-    <script>
+    <link href="./Libraries/bootstrap-theme.css" rel="stylesheet" />
+    <link href="./Libraries/bootstrap.css" rel="stylesheet" />    <script>
         var app = angular.module("myApp", []);
 
         app.controller("myAppCtrl", function ($scope) {
-            $scope.items = ['start'];
+            $scope.tasks= [
+            {str: " 2 + 4", value: "" },
+            {str: " 8 - 4", value: ""},
+            {str: " 2 * 4", value: ""},
+        ];
         });
 
     </script>
@@ -17,6 +21,53 @@
 <body>
     <div ng-controller="myAppCtrl">
         <div>{{items}}</div>
+
+        <div class="container">
+          <table class="table">
+               <thead>
+                   <tr>
+                       <th>#</th>
+                       <th>Task</th>
+                       <th>Answer</th>
+                       <th>Check</th>
+                   </tr>
+               </thead>
+
+               <tr ng-repeat="task in tasks">
+                   <td>{{$index+1}}</td>
+                   <td>{{task.str}}</td>
+                   <td>
+                     <form class="form-inline">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="exampleInputName2" placeholder="answer" ng-model="tasks[$index].value">
+                      </div>
+                    </form>
+                   </td>
+                   <td>{{tasks[$index].value}}</td>
+               </tr>
+               <!-- <tr>
+                   <td>w</td>
+                   <td>s</td>
+                   <td>
+                     <form class="form-inline">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="exampleInputName2" placeholder="answer">
+                      </div>
+                    </form>
+                  </td>
+                  <td></td>
+               </tr>
+               <tr>
+                   <td>w</td>
+                   <td>s</td>
+                   <td>s</td>
+                   <td></td>
+               </tr> -->
+
+
+
+           </table>
+       </div>
     </div>
 </body>
 </html>
