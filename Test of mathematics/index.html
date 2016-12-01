@@ -16,6 +16,70 @@
         ];
         });
 
+class Equetion {
+    constructor(){
+      this.operand1 = this.RandomOperand();
+      this.operand2 = this.RandomOperand();
+      this.symbol = this.RandomSymbol();
+      this.answerUser;
+      this.answerAfterCheck;
+    }
+
+    RandomSymbol(){
+      return Equetion.staticSymbolMas[Math.floor(Math.random()*Equetion.staticSymbolMas.length)];
+    }
+
+    RandomOperand(){
+      return Math.floor(Math.random()*(100));
+    }
+
+    Check() {
+      let answerComputer;
+      switch(this.symbol) {
+        case "+":{
+          answerComputer = this.operand1 + this.operand2;
+          break;
+        }
+        case "-":{
+          answerComputer = this.operand1 - this.operand2;
+          break;
+        }
+        case "*":{
+          answerComputer = this.operand1 * this.operand2;
+          break;
+        }
+        case "/":{
+          answerComputer = this.operand1 / this.operand2;
+          break;
+        }
+    }
+
+    if(this.answerUser == answerComputer)
+      this.answerAfterCheck = true;
+    else
+      this.answerAfterCheck = false;
+  }
+
+  Symbol(symbol){
+    let temp = Equetion.staticSymbolMas.indexOf(symbol);
+    if(temp == -1) {
+      Equetion.staticSymbolMas.push(symbol);
+    }
+    else {
+      Equetion.staticSymbolMas.splice(temp, 1);
+    }
+  }
+}
+
+Equetion.staticSymbolMas = ['+','-','*','/'];
+
+let task = new Equetion();
+
+console.log(task);
+
+task.answerUser = task.operand1 + task.operand2;
+
+console.log(task.answerAfterCheck);
     </script>
 </head>
 <body>
