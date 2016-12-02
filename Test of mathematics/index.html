@@ -26,7 +26,7 @@
             }
 
             RandomOperand(){
-              return Math.floor(Math.random()*(100));
+              return Math.floor(Math.random()*(10))+1;
             }
 
             Check() {
@@ -45,7 +45,7 @@
                   break;
                 }
                 case "/":{
-                  answerComputer = this.operand1 / this.operand2;
+                  answerComputer =(Math.floor((this.operand1 / this.operand2) * 10) / 10);
                   break;
                 }
               }
@@ -56,7 +56,8 @@
             }
           }
 
-          Equetion.Symbol = function(symbol){
+          $scope.Symbol = function(symbol){
+
             let temp = Equetion.staticSymbolMas.indexOf(symbol);
             if(temp == -1) {
               Equetion.staticSymbolMas.push(symbol);
@@ -74,6 +75,11 @@
             }
           }
 
+          $scope.newTasks = function(){
+            for(let i = 0; i < 10; i++) {
+               $scope.tasks[i] = new Equetion();
+            }
+          }
           $scope.tasks = [];
 
           for(let i = 0; i < 10; i++) {
@@ -106,6 +112,14 @@
         <!-- <div>{{task.operand1}}</div> -->
 
         <div class="container">
+          <div>
+              <button type="button"  class="btn btn-default" ng-click="newTasks()">Start</button>
+              <input type="checkbox" checked ng-click="Symbol('+')"/>+<br />
+              <input type="checkbox" checked ng-click="Symbol('-')" />-<br/>
+              <input type="checkbox" checked ng-click="Symbol('*')" />*<br/>
+              <input type="checkbox" checked ng-click="Symbol('/')" />/
+          </div>
+
           <table class="table">
                <thead>
                    <tr>
