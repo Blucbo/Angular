@@ -6,85 +6,104 @@
     <script src="./Libraries/angular.js"></script>
     <link href="./Libraries/bootstrap-theme.css" rel="stylesheet" />
     <link href="./Libraries/bootstrap.css" rel="stylesheet" />    <script>
+
+
+
         var app = angular.module("myApp", []);
 
         app.controller("myAppCtrl", function ($scope) {
-            $scope.tasks= [
-            {str: " 2 + 4", value: "" },
-            {str: " 8 - 4", value: ""},
-            {str: " 2 * 4", value: ""},
-        ];
+          class Equetion {
+            constructor(){
+              this.operand1 = this.RandomOperand();
+              this.operand2 = this.RandomOperand();
+              this.symbol = this.RandomSymbol();
+              this.answerUser;
+              this.answerAfterCheck;
+            }
+
+            RandomSymbol(){
+              return Equetion.staticSymbolMas[Math.floor(Math.random()*Equetion.staticSymbolMas.length)];
+            }
+
+            RandomOperand(){
+              return Math.floor(Math.random()*(100));
+            }
+
+            Check() {
+              let answerComputer;
+              switch(this.symbol) {
+                case "+":{
+                   answerComputer = this.operand1 + this.operand2;
+                   break;
+                }
+                case "-":{
+                  answerComputer = this.operand1 - this.operand2;
+                  break;
+                }
+                case "*":{
+                  answerComputer =  this.operand1 * this.operand2;
+                  break;
+                }
+                case "/":{
+                  answerComputer = this.operand1 / this.operand2;
+                  break;
+                }
+              }
+              if(this.answerUser == answerComputer)
+                this.answerAfterCheck = true;
+              else
+                this.answerAfterCheck = false;
+            }
+          }
+
+          Equetion.Symbol = function(symbol){
+            let temp = Equetion.staticSymbolMas.indexOf(symbol);
+            if(temp == -1) {
+              Equetion.staticSymbolMas.push(symbol);
+            }
+            else {
+              Equetion.staticSymbolMas.splice(temp, 1);
+            }
+          }
+
+          Equetion.staticSymbolMas = ['+','-','*','/'];
+
+          $scope.CheckAll = function() {
+            for(let i = 0; i < 10; i++) {
+               $scope.tasks[i].Check();
+            }
+          }
+
+          $scope.tasks = [];
+
+          for(let i = 0; i < 10; i++) {
+             $scope.tasks[i] = new Equetion();
+          }
+
         });
 
-class Equetion {
-    constructor(){
-      this.operand1 = this.RandomOperand();
-      this.operand2 = this.RandomOperand();
-      this.symbol = this.RandomSymbol();
-      this.answerUser;
-      this.answerAfterCheck;
-    }
 
-    RandomSymbol(){
-      return Equetion.staticSymbolMas[Math.floor(Math.random()*Equetion.staticSymbolMas.length)];
-    }
 
-    RandomOperand(){
-      return Math.floor(Math.random()*(100));
-    }
 
-    Check() {
-      let answerComputer;
-      switch(this.symbol) {
-        case "+":{
-          answerComputer = this.operand1 + this.operand2;
-          break;
-        }
-        case "-":{
-          answerComputer = this.operand1 - this.operand2;
-          break;
-        }
-        case "*":{
-          answerComputer = this.operand1 * this.operand2;
-          break;
-        }
-        case "/":{
-          answerComputer = this.operand1 / this.operand2;
-          break;
-        }
-    }
+        // Equetion.Symbol("+");
+        // console.log(Equetion.staticSymbolMas);
 
-    if(this.answerUser == answerComputer)
-      this.answerAfterCheck = true;
-    else
-      this.answerAfterCheck = false;
-  }
+        // let tasks = [];
+        // for(let i = 0; i < 10; i++) {
+        //   tasks[i] = new Equetion();
+        // }
 
-  Symbol(symbol){
-    let temp = Equetion.staticSymbolMas.indexOf(symbol);
-    if(temp == -1) {
-      Equetion.staticSymbolMas.push(symbol);
-    }
-    else {
-      Equetion.staticSymbolMas.splice(temp, 1);
-    }
-  }
-}
-
-Equetion.staticSymbolMas = ['+','-','*','/'];
-
-let task = new Equetion();
-
-console.log(task);
-
-task.answerUser = task.operand1 + task.operand2;
-
-console.log(task.answerAfterCheck);
+        // console.log(tasks);
+        //
+        // CheckAll();
+        //
+        //
+        // console.log(tasks);
     </script>
 </head>
 <body>
     <div ng-controller="myAppCtrl">
-        <div>{{items}}</div>
+        <!-- <div>{{task.operand1}}</div> -->
 
         <div class="container">
           <table class="table">
@@ -93,25 +112,26 @@ console.log(task.answerAfterCheck);
                        <th>#</th>
                        <th>Task</th>
                        <th>Answer</th>
-                       <th>Check</th>
+                       <th><button type="button" class="btn btn-default" ng-click="CheckAll()">Check</button></th>
                    </tr>
                </thead>
 
-               <tr ng-repeat="task in tasks">
+                <tr ng-repeat="task in tasks">
                    <td>{{$index+1}}</td>
-                   <td>{{task.str}}</td>
+                   <td>{{task.operand1}} {{task.symbol}} {{task.operand2}}</td>
                    <td>
                      <form class="form-inline">
                       <div class="form-group">
-                        <input type="text" class="form-control" id="exampleInputName2" placeholder="answer" ng-model="tasks[$index].value">
-                      </div>
+                         <input type="text" class="form-control" id="exampleInputName2" placeholder="answer" ng-model="task.answerUser">
+                       </div>
                     </form>
                    </td>
-                   <td>{{tasks[$index].value}}</td>
-               </tr>
-               <!-- <tr>
-                   <td>w</td>
-                   <td>s</td>
+                   <td>{{task.answerUser}}</td>
+                   <td>{{task.answerAfterCheck}}</td>
+                </tr>
+
+
+                <!-- <tr>
                    <td>
                      <form class="form-inline">
                       <div class="form-group">
@@ -120,13 +140,8 @@ console.log(task.answerAfterCheck);
                     </form>
                   </td>
                   <td></td>
-               </tr>
-               <tr>
-                   <td>w</td>
-                   <td>s</td>
-                   <td>s</td>
-                   <td></td>
                </tr> -->
+
 
 
 
