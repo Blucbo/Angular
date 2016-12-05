@@ -22,7 +22,7 @@
             }
 
             RandomSymbol(){
-              return Equetion.staticSymbolMas[Math.floor(Math.random()*Equetion.staticSymbolMas.length)];
+              return $scope.staticSymbolMas[Math.floor(Math.random()*$scope.staticSymbolMas.length)];
             }
 
             RandomOperand(){
@@ -57,17 +57,24 @@
           }
 
           $scope.Symbol = function(symbol){
-
-            let temp = Equetion.staticSymbolMas.indexOf(symbol);
-            if(temp == -1) {
-              Equetion.staticSymbolMas.push(symbol);
-            }
-            else {
-              Equetion.staticSymbolMas.splice(temp, 1);
+            // if(Equetion.staticSymbolMas.length == 2){
+            //   $scope.countCheck = true;
+            // } else {
+              let temp = $scope.staticSymbolMas.indexOf(symbol);
+              if(temp == -1) {
+                $scope.staticSymbolMas.push(symbol);
+                $scope.countCheck++;
+              }
+              else {
+                $scope.staticSymbolMas.splice(temp, 1);
+                $scope.countCheck--;
+              //}
             }
           }
 
-          Equetion.staticSymbolMas = ['+','-','*','/'];
+          $scope.staticSymbolMas = ['+','-','*','/'];
+
+          //$scope.boolCheck = [true,true,true,true];
 
           $scope.CheckAll = function() {
             for(let i = 0; i < 10; i++) {
@@ -80,8 +87,11 @@
                $scope.tasks[i] = new Equetion();
             }
           }
-          $scope.tasks = [];
 
+
+
+          $scope.tasks = [];
+          $scope.countCheck = 4;
           for(let i = 0; i < 10; i++) {
              $scope.tasks[i] = new Equetion();
           }
@@ -109,15 +119,15 @@
 </head>
 <body>
     <div ng-controller="myAppCtrl">
-        <!-- <div>{{task.operand1}}</div> -->
+        <div>{{staticSymbolMas}}</div>
 
         <div class="container">
           <div>
               <button type="button"  class="btn btn-default" ng-click="newTasks()">Start</button>
-              <input type="checkbox" checked ng-click="Symbol('+')"/>+<br />
-              <input type="checkbox" checked ng-click="Symbol('-')" />-<br/>
-              <input type="checkbox" checked ng-click="Symbol('*')" />*<br/>
-              <input type="checkbox" checked ng-click="Symbol('/')" />/
+              <input type="checkbox" checked ng-click="Symbol('+')"  ng-disabled="(staticSymbolMas[0]=='+' && countCheck == 1) ? true : false" />+<br />
+              <input type="checkbox" checked ng-click="Symbol('-')"  ng-disabled="(staticSymbolMas[0]=='-' && countCheck ==1) ? true : false" />-<br/>
+              <input type="checkbox" checked ng-click="Symbol('*')"  ng-disabled="(staticSymbolMas[0]=='*' && countCheck ==1) ? true : false" />*<br/>
+              <input type="checkbox" checked ng-click="Symbol('/')"  ng-disabled="(staticSymbolMas[0]=='/' && countCheck ==1) ? true : false" />/
           </div>
 
           <table class="table">
@@ -140,7 +150,7 @@
                        </div>
                     </form>
                    </td>
-                   <td>{{task.answerUser}}</td>
+                   
                    <td>{{task.answerAfterCheck}}</td>
                 </tr>
 
