@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>Test</title>
+
+    <script src="./Libraries/angular.js"></script>
+    <link href="./Libraries/bootstrap-theme.css" rel="stylesheet" />
+    <link href="./Libraries/bootstrap.css" rel="stylesheet" />    <script>
+
+
+
+        var app = angular.module("myApp", []);
+
+        app.controller("myAppCtrl", function ($scope) {
+
+          class Equetion {
+            constructor(){
+              this.operand1 = this.RandomOperand();
+              this.operand2 = this.RandomOperand();
+              this.symbol = this.RandomSymbol();
+              this.answerUser;
+              this.answerAfterCheck;
+            }
+
+            RandomSymbol(){
+              return $scope.staticSymbolMas[Math.floor(Math.random()*$scope.staticSymbolMas.length)];
+            }
+
+            RandomOperand(){
+              return Math.floor(Math.random()*(10))+1;
+            }
+
+            Check() {
+              let answerComputer;
+              switch(this.symbol) {
+                case "+":{
+                   answerComputer = this.operand1 + this.operand2;
+                   break;
+                }
+                case "-":{
+                  answerComputer = this.operand1 - this.operand2;
+                  break;
+                }
+                case "*":{
+                  answerComputer =  this.operand1 * this.operand2;
+                  break;
+                }
+                case "/":{
+                  answerComputer =(Math.floor((this.operand1 / this.operand2) * 10) / 10);
+                  break;
+                }
+              }
+              if(this.answerUser == answerComputer)
+                this.answerAfterCheck = true;
+              else
+                this.answerAfterCheck = false;
+            }
+          }
+
+          $scope.Symbol = function(symbol){
+            // if(Equetion.staticSymbolMas.length == 2){
+            //   $scope.countCheck = true;
+            // } else {
+              let temp = $scope.staticSymbolMas.indexOf(symbol);
+              if(temp == -1) {
+                $scope.staticSymbolMas.push(symbol);
+                $scope.countCheck++;
+              }
+              else {
+                $scope.staticSymbolMas.splice(temp, 1);
+                $scope.countCheck--;
+              //}
+            }
+          }
+
+          $scope.staticSymbolMas = ['+','-','*','/'];
+
+
+          $scope.CheckAll = function() {
+            for(let i = 0; i < 10; i++) {
+               $scope.tasks[i].Check();
+            }
+          }
+
+          $scope.newTasks = function(){
+            for(let i = 0; i < 10; i++) {
+               $scope.tasks[i] = new Equetion();
+            }
+          }
+
+
+
+          $scope.tasks = [];
+          $scope.countCheck = 4;
+          for(let i = 0; i < 10; i++) {
+             $scope.tasks[i] = new Equetion();
+          }
+          $scope.hideElem1 = false;
+          $scope.hideElem2 = true;
+        });
+
+    </script>
+</head>
+<body>
+  <style>
+    .checkTrue {
+      display: inline;
+    }
+
+    .false {
+
+      color: red;
+    }
+    .true {
+      color: green;
+    }
+  </style>
+    <div ng-controller="myAppCtrl">
+        <div class="container">
+          <div class="btn-group">
+            <button class="btn btn-default" ng-click="hideElem1 = !hideElem1;hideElem2 = true; ">Test</button>
+            <button class="btn btn-default" ng-click="hideElem2 = !hideElem2;hideElem1 = true;">Setting</button>
+        </div>
+
+          <div ng-hide="hideElem2">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" checked ng-click="Symbol('+')"  ng-disabled="(staticSymbolMas[0]=='+' && staticSymbolMas.length == 1) ? true : false" />addition (+)<br />
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" checked ng-click="Symbol('-')"  ng-disabled="(staticSymbolMas[0]=='-' && staticSymbolMas.length ==1) ? true : false" />subtraction (-)<br/>
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" checked ng-click="Symbol('*')"  ng-disabled="(staticSymbolMas[0]=='*' && staticSymbolMas.length ==1) ? true : false" />multiplication (*)<br/>
+                </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" checked ng-click="Symbol('/')"  ng-disabled="(staticSymbolMas[0]=='/' && staticSymbolMas.length ==1) ? true : false" />division (/)
+                </label>
+              </div>
+              <button type="button"  class="btn btn-default" ng-click="newTasks()">Start</button>
+          </div>
+
+          <div ng-hide="hideElem1">
+
+
+          <table class="table" >
+               <thead>
+                   <tr>
+                       <th>#</th>
+                       <th>Task</th>
+                       <th>Answer</th>
+                       <th><button type="button" class="btn btn-default" ng-click="CheckAll()">Check</button>
+                         <h3 ng-hide="hideElem1" class="checkTrue">
+                             True
+                             <span class="label label-info btn-success">
+                                 {{(tasks | filter : {answerAfterCheck : 'true'} ).length}}
+                             </span>
+                         </h3>
+                       </th>
+                   </tr>
+               </thead>
+                <tr ng-repeat="task in tasks">
+                   <td>{{$index+1}}</td>
+                   <td>{{task.operand1}} {{task.symbol}} {{task.operand2}}</td>
+                   <td>
+                     <form class="form-inline">
+                      <div class="form-group">
+                         <input type="text" class="form-control" id="exampleInputName2" placeholder="answer" ng-model="task.answerUser">
+                       </div>
+                    </form>
+                   </td>
+                   <td class="missAnswer" ng-class="task.answerAfterCheck ? 'true' : 'false'">{{task.answerAfterCheck}}</td>
+                </tr>
+           </table>
+           </div>
+       </div>
+    </div>
+</body>
+</html>
