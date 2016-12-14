@@ -15,22 +15,20 @@
 
           class Equetion {
             constructor(){
-              this.operand1 = this.RandomOperand();
-              this.operand2 = this.RandomOperand();
-              this.symbol = this.RandomSymbol();
-              this.answerUser;
-              this.answerAfterCheck;
+              this.operand1 = this.randomOperand();
+              this.operand2 = this.randomOperand();
+              this.symbol = this.randomSymbol();
             }
 
-            RandomSymbol(){
+            randomSymbol(){
               return $scope.staticSymbolMas[Math.floor(Math.random()*$scope.staticSymbolMas.length)];
             }
 
-            RandomOperand(){
+            randomOperand(){
               return Math.floor(Math.random()*(10))+1;
             }
 
-            Check() {
+            check() {
               let answerComputer;
               switch(this.symbol) {
                 case "+":{
@@ -50,14 +48,11 @@
                   break;
                 }
               }
-              if(this.answerUser == answerComputer)
-                this.answerAfterCheck = true;
-              else
-                this.answerAfterCheck = false;
+              this.answerAfterCheck = (this.answerUser == answerComputer);
             }
           }
 
-          $scope.Symbol = function(symbol){
+          $scope.symbol = function(symbol){
             // if(Equetion.staticSymbolMas.length == 2){
             //   $scope.countCheck = true;
             // } else {
@@ -76,9 +71,9 @@
           $scope.staticSymbolMas = ['+','-','*','/'];
 
 
-          $scope.CheckAll = function() {
+          $scope.checkAll = function() {
             for(let i = 0; i < 10; i++) {
-               $scope.tasks[i].Check();
+               $scope.tasks[i].check();
             }
           }
 
@@ -118,8 +113,8 @@
     <div ng-controller="myAppCtrl">
         <div class="container">
           <div class="btn-group">
-            <button class="btn btn-default" ng-click="hideElem1 = !hideElem1;hideElem2 = true; ">Test</button>
-            <button class="btn btn-default" ng-click="hideElem2 = !hideElem2;hideElem1 = true;">Setting</button>
+            <button class="btn btn-default" ng-click="hideElem2 = true; hideElem1 = false; ">Test</button>
+            <button class="btn btn-default" ng-click="hideElem2 = !true; hideElem1 = !false;">Setting</button>
         </div>
 
           <div ng-hide="hideElem2">
@@ -143,7 +138,7 @@
                   <input type="checkbox" checked ng-click="Symbol('/')"  ng-disabled="(staticSymbolMas[0]=='/' && staticSymbolMas.length ==1) ? true : false" />division (/)
                 </label>
               </div>
-              <button type="button"  class="btn btn-default" ng-click="newTasks()">Start</button>
+              <button type="button"  class="btn btn-default" ng-click="newTasks(); hideElem2 = true; hideElem1 = false;">Start</button>
           </div>
 
           <div ng-hide="hideElem1">
@@ -155,7 +150,7 @@
                        <th>#</th>
                        <th>Task</th>
                        <th>Answer</th>
-                       <th><button type="button" class="btn btn-default" ng-click="CheckAll()">Check</button>
+                       <th><button type="button" class="btn btn-default" ng-click="checkAll()">Check</button>
                          <h3 ng-hide="hideElem1" class="checkTrue">
                              True
                              <span class="label label-info btn-success">
