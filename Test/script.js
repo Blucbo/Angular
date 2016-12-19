@@ -1,3 +1,5 @@
+
+
 var app = angular.module("app", []);
 
 
@@ -21,8 +23,6 @@ var MainController = function($scope, $http) {
       $scope.$apply(function(){
         $scope.lat = lat;
         $scope.lng = lng;
-        console.log( $scope.lat);
-        console.log( $scope.lng);
       });
    });
   $scope.dist = function(geo){
