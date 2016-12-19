@@ -21,10 +21,20 @@ var MainController = function($scope, $http) {
       $scope.$apply(function(){
         $scope.lat = lat;
         $scope.lng = lng;
+        console.log( $scope.lat);
+        console.log( $scope.lng);
       });
    });
   $scope.dist = function(geo){
-    
+    let a =
+            Math.sin((geo.lat-$scope.lat)*Math.PI/180/2) *
+            Math.sin((geo.lat-$scope.lat)*Math.PI/180/2) +
+            Math.cos($scope.lat*Math.PI/180) * Math.cos(geo.lat*Math.PI/180) *
+            Math.sin((geo.lng-$scope.lng)*Math.PI/360) * Math.sin((geo.lng-$scope.lng)*Math.PI/360);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+    let d = Math.floor(6371 * c);
+    return d;
   }
 
   $scope.usersSortOrder = "+name";
