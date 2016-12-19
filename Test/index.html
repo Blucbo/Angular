@@ -19,6 +19,18 @@
 
 <body ng-controller="MainController">
    <button class="btn btn-default" ng-click="getUsers()">Users</button>
+   <select ng-model="usersSortOrder">
+      <option value="+name">Name ascending</option>
+      <option value="-name">Name descending </option>
+      <option value="+username">Username ascending </option>
+      <option value="-username">Username descending </option>
+      <option value="+email">Email ascending </option>
+      <option value="-email">Email descending </option>
+      <option value="+address.street">address.street ascending </option>
+      <option value="">address.street descending </option>
+      <option value="+company.name">company.name ascending </option>
+      <option value="-company.name">company.name descending </option>
+    </select>
    <div ng-show="error">{{error}}</div>
    <table class="table table-striped" ng-show="users">
     <thead>
@@ -33,7 +45,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="user in users ">
+        <tr ng-repeat="user in users | orderBy:usersSortOrder">
             <td>{{user.name}}</td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
