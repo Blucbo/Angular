@@ -26,6 +26,7 @@ var MainController = function($scope, $http) {
       });
    });
   $scope.dist = function(geo){
+    if(angular.isDefined(geo)){
     let a =
             Math.sin((geo.lat-$scope.lat)*Math.PI/180/2) *
             Math.sin((geo.lat-$scope.lat)*Math.PI/180/2) +
@@ -34,8 +35,19 @@ var MainController = function($scope, $http) {
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
     let d = Math.floor(6371 * c);
-    return d;
+    return d;}
   }
+  $scope.addNewUser = function (userDetails) {
+    $scope.users.push({
+        id: ($scope.users.length+1),
+        name: userDetails.name,
+        username: userDetails.username,
+        email: userDetails.email,
+        website: userDetails.website,
+        phone: userDetails.phone,
+        company: {name: userDetails.company.name},
+    });
+}
 
   $scope.usersSortOrder = "+name";
 };

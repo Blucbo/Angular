@@ -31,47 +31,48 @@
          <h4 class="modal-title" id="myModalLabel">Add User</h4>
        </div>
        <div class="modal-body">
-         <form>
+
+           <form name="myForm" ng-submit="addNewUser(newUser)">
            <fieldset>
                <legend>User</legend>
                <p>
                    <label>
                         Name
-                       <input type="text" name="name" required="required" />
+                       <input type="text" name="name" required="required" ng-model="newUser.name"/>
                    </label>
                </p>
                <p>
                    <label>
                        Username
-                       <input type="text" name="username" required="required" /></label>
+                       <input type="text" name="username" required="required" ng-model="newUser.username" /></label>
                </p>
                <p>
                    <label>
                        Email
-                       <input type="email" name="email" placeholder="user@domain.com" required="required" /></label>
+                       <input type="email" name="email" placeholder="user@domain.com" required="required" ng-model="newUser.email" /></label>
                </p>
                <p>
                    <label>
                        Website
-                       <input type="url" name="website" placeholder="http://www.domain.com/" />
+                       <input type="url" name="website" placeholder="http://www.domain.com/" ng-model="newUser.website" />
                    </label>
                </p>
                <p>
                  <label>
                      Phone
                      <input type="tel" name="phone" pattern="\(\d{3}\) \d{3}-\d{4}"
-                         title=" (063) 223-2323" placeholder="(063) 223-2323"/>
+                         title=" (063) 223-2323" placeholder="(063) 223-2323"  ng-model="newUser.phone"/>
                  </label>
                </p>
                <p>
                   <label>
                        Name company
-                      <input type="text" name="companyName" required="required" />
+                      <input type="text" name="companyName" required="required" ng-model="newUser.company.name"/>
                   </label>
                </p>
            </fieldset>
            <p>
-               <input type="submit" value="Save changes" />
+               <input type="submit" value="Save changes" "/>
            </p>
        </form>
        </div>
