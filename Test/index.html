@@ -20,7 +20,7 @@
 </head>
 
 <body ng-controller="MainController">
-   <button class="btn btn-default" ng-click="getUsers()">Users</button>
+   <button class="btn btn-default" ng-click="getUserVal()">Users</button>
    <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal">Add User</button>
 
    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -72,7 +72,7 @@
                </p>
            </fieldset>
            <p>
-               <input type="submit" value="Save changes" "/>
+               <input type="submit" value="Save changes" />
            </p>
        </form>
        </div>
@@ -82,32 +82,52 @@
      </div>
    </div>
  </div>
-   <select ng-model="usersSortOrder">
-      <option value="+name">Name ascending</option>
-      <option value="-name">Name descending </option>
-      <option value="+username">Username ascending </option>
-      <option value="-username">Username descending </option>
-      <option value="+email">Email ascending </option>
-      <option value="-email">Email descending </option>
-      <option value="+address.street">address.street ascending </option>
-      <option value="">address.street descending </option>
-      <option value="+company.name">company.name ascending </option>
-      <option value="-company.name">company.name descending </option>
-    </select>
+  
    <div ng-show="error">{{error}}</div>
    <table class="table table-striped" ng-show="users">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Email</th>
+            <th>
+              <span ng-model="hideElem1" ng-click="[sortUsers('name'), hideElem1=!hideElem1]">Name</span>
+              <span class="glyphicon glyphicon-arrow-up" ng-hide="hideElem1" ></span>
+              <span class="glyphicon glyphicon-arrow-down" ng-hide="!hideElem1" ></span>
+              <form name="searchName" ng-submit="getUserVal('name=',name)">
+                  <input type="search" required placeholder="Name to find" ng-model="name" />
+              </form>
+            </th>
+            <th>
+              <span ng-model="hideElem2" ng-click="[sortUsers('username'), hideElem2=!hideElem2]">Username</span>
+              <span class="glyphicon glyphicon-arrow-up" ng-hide="hideElem2" ></span>
+              <span class="glyphicon glyphicon-arrow-down" ng-hide="!hideElem2" ></span>
+
+              <form name="searchUserName" ng-submit="getUserVal('username=',username)">
+                  <input type="search" required placeholder="Username to find" ng-model="username" />
+              </form>
+            </th>
+            <th>
+              <span ng-model="hideElem2" ng-click="[sortUsers('email'), hideElem3=!hideElem3]">Email</span>
+              <span class="glyphicon glyphicon-arrow-up" ng-hide="hideElem3" ></span>
+              <span class="glyphicon glyphicon-arrow-down" ng-hide="!hideElem3" ></span>
+              <form name="searchEmail" ng-submit="getUserVal('email=',email)">
+                  <input type="search" required placeholder="email to find" ng-model="email" />
+              </form>
+            </th>
             <th>Website</th>
             <th>Phone</th>
-            <th>Сity/street/suite</th>
+            <th>
+              <span ng-model="hideElem3" ng-click="[sortUsers('address.street'), hideElem4=!hideElem4]">Сity/street/suite</span>
+              <span class="glyphicon glyphicon-arrow-up" ng-hide="hideElem4" ></span>
+              <span class="glyphicon glyphicon-arrow-down" ng-hide="!hideElem4" ></span>
+            </th>
             <th>Distance, km</th>
-            <th>Company</th>
+            <th>
+              <span ng-model="hideElem4" ng-click="[sortUsers('company.name'), hideElem4=!hideElem4]">Company</span>
+              <span class="glyphicon glyphicon-arrow-up" ng-hide="hideElem4" ></span>
+              <span class="glyphicon glyphicon-arrow-down" ng-hide="!hideElem4" ></span>
+            </th>
 
         </tr>
+
     </thead>
     <tbody>
         <tr ng-repeat="user in users | orderBy:usersSortOrder">

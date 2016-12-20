@@ -5,17 +5,20 @@ var app = angular.module("app", []);
 
 var MainController = function($scope, $http) {
 
-  var onUsersComplete = function(response) {
+  $scope.hideElem1 = false;
+  var onUsernameComplete = function(response) {
     $scope.users = response.data;
   };
-
   var onError = function(reason) {
     $scope.error = "Could not fetch the data.";
   };
+  $scope.sortUsers = function(name){
+    $scope.usersSortOrder = ($scope.usersSortOrder == "+"+name)?"-"+name:"+"+name;
+  };
 
-  $scope.getUsers = function(){
-      $http.get("http://jsonplaceholder.typicode.com/users/")
-        .then(onUsersComplete, onError);
+  $scope.getUserVal = function(search,username){
+    $http.get("http://jsonplaceholder.typicode.com/users?"+search + username)
+          .then(onUsernameComplete, onError);
   };
   navigator.geolocation.getCurrentPosition(function(position){
       var lat = position.coords.latitude;
